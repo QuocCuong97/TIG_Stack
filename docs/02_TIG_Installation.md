@@ -4,13 +4,13 @@
 ### **2.1) Cài đặt InfluxDB**
 - **B1 :** Thêm Influxdata key :
     ```
-    # sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+    # wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
     ```
 - **B2 :** Thêm repositorty Influxdata và update lại các thay đổi :
     ```
     # source /etc/lsb-release
     # echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
-    # sudo apt update -y
+    # apt update -y
     ```
 - **B3 :** Cài đặt gói `influxdb` :
     ```
@@ -66,4 +66,120 @@
     ```
 - **B2 :** Khởi động dịch vụ và cấu hình khởi động cùng hệ thống :
     ```
-    
+    # systemctl start telegraf
+    # systemctl enable telegraf
+    ```
+- **B3 :** Kiểm tra trạng thái dịch vụ :
+    ```
+    # systemctl status telegraf
+    ```
+    <img src=https://i.imgur.com/wVajxS3.png>
+
+- **B4 :** Kiểm tra version hiện tại của **Telegraf** :
+    ```
+    # telegraf --version
+    ```
+    <img src=https://i.imgur.com/SUtROr2.png>
+
+- **B5 :** Backup file cấu hình mặc định của **Telegraf** :
+    ```
+    # cd /etc/telegraf/
+    # cp telegraf.conf telegraf.conf.bak
+    ```
+- **B6 :** Chỉnh sửa file cấu hình `telegraf.conf` :
+    ```
+    # vi telegraf.conf
+    ```
+    - Chỉnh sửa một số dòng sau :
+
+        <img src=https://i.imgur.com/nunzrLb.png>
+
+        <img src=https://i.imgur.com/epGCpHw.png>
+
+        <img src=https://i.imgur.com/ZKDikuI.png>
+
+        <img src=https://i.imgur.com/MBBHdVm.png>
+
+        <img src=https://i.imgur.com/TwfUmL6.png>
+
+        <img src=https://i.imgur.com/V4HuoFv.png>
+
+        <img src=https://i.imgur.com/i0e7G1N.png>
+
+        <img src=https://i.imgur.com/kU3Gz7k.png>
+
+        <img src=https://i.imgur.com/KYpLIvf.png>
+
+        <img src=https://i.imgur.com/lFu5b6h.png>
+
+        <img src=https://i.imgur.com/xPgqF0Z.png>
+
+        <img src=https://i.imgur.com/RHTPfvM.png>
+
+        <img src=https://i.imgur.com/hSru96N.png>
+
+        <img src=https://i.imgur.com/Al0V65v.png>
+
+- **B7 :** Khởi động lại dịch vụ :
+    ```
+    # systemctl restart telegraf
+    ```
+- **B8 :** Kiểm tra trạng thái của các input :
+    - Kiểm tra `cpu` input :
+        ```
+        # telegraf -test -config /etc/telegraf/telegraf.conf --input-filter cpu
+        ```
+        <img src=https://i.imgur.com/vcOG1uv.png>
+    - Kiểm tra `net` input :
+        ```
+        # telegraf -test -config /etc/telegraf/telegraf.conf --input-filter net
+        ```
+        <img src=https://i.imgur.com/XLK7EoY.png>
+    - Kiểm tra `mem` input :
+        ```
+        # telegraf -test -config /etc/telegraf/telegraf.conf --input-filter mem
+        ```
+        <img src=https://i.imgur.com/FVaqJ8a.png>
+
+### **2.3) Cài đặt Grafana**
+- **B1 :** Thêm Grafana key và repository :
+    ```
+    # apt-get install -y adduser libfontconfig1
+    # wget https://dl.grafana.com/oss/release/grafana_6.7.3_amd64.deb
+    ```
+- **B2 :** Cài đặt package **Grafana** :
+    ```
+    # dpkg -i grafana_6.7.3_amd64.deb
+    ```
+- **B3 :** Khởi động dịch vụ và cấu hình khởi động cùng hệ thống :
+    ```
+    # systemctl start grafana-server
+    # systemctl enable grafana-server
+    ```
+- **B4 :** Kiểm tra trạng thái dịch vụ :
+    ```
+    # systemctl status grafana-server
+    ```
+    <img src=https://i.imgur.com/i8kago2.png>
+- **B5 :** Kiểm tra port đang mở :
+    ```
+    # netstat -plntu
+    ```
+    <img src=https://i.imgur.com/bh47xiX.png>
+- **B6 :** Kiểm tra version hiện tại của **Grafana** :
+    ```
+    # grafana-servef -v
+    ```
+    <img src=https://i.imgur.com/JVQcK27.png>
+
+- **B7 :** Setup **Grafana**  - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
+    ```
+    http://<ip-grafana-server>:3000
+    ```
+    <img src=https://i.imgur.com/o1xixfN.png>
+
+- **B8 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên :
+
+    <img src=https://i.imgur.com/zsxmH6w.png>
+
+- **B9 :**
