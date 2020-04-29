@@ -9,7 +9,7 @@
 - **B2 :** Thêm repositorty Influxdata và update lại các thay đổi :
     ```
     # source /etc/lsb-release
-    # echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+    # echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list
     # apt update -y
     ```
 - **B3 :** Cài đặt gói `influxdb` :
@@ -21,37 +21,41 @@
     # systemctl start influxdb
     # systemctl enable influxdb
     ```
-- **B5 :** Kiểm tra trạng thái dịch vụ :
+- **B5 :** Cho phép port `8086` đi qua **firewall** :
+    ```
+    # ufw allow 8086/tcp
+    ```
+- **B6 :** Kiểm tra trạng thái dịch vụ :
     ```
     # systemctl status influxdb
     ```
     <img src=https://i.imgur.com/FrD2fkv.png>
 
-- **B6 :** Kiểm tra port đang mở :
+- **B7 :** Kiểm tra port đang mở :
     ```
     # netstat -plntu
     ```
     <img src=https://i.imgur.com/JIDrjJW.png>
 
-- **B7 :** Kiểm tra version hiện tại của **Influx** :
+- **B8 :** Kiểm tra version hiện tại của **Influx** :
     ```
     # influx -version
     ```
     <img src=https://i.imgur.com/gV6N7ZW.png>
 
-- **B8 :** Để lưu trữ dữ liệu cho **Telegraf agents**, ta sẽ setup trước database và user trên **Influxdb** :
+- **B9 :** Để lưu trữ dữ liệu cho **Telegraf agents**, ta sẽ setup trước database và user trên **Influxdb** :
     ```
     # influx
     ```
     <img src=https://i.imgur.com/pELvFb2.png>
 
     > Lúc này ta đang kết nối đến **Influx server** mặc định trên port `8086`.
-- **B9 :** Tạo database và user cho **Telegraf** :
+- **B10 :** Tạo database và user cho **Telegraf** :
     ```
     > create database telegraf
     > create user telegraf with password 'P@ssw0rd'
     ```
-- **B10 :** Kiểm tra lại database và user vừa tạo :
+- **B11 :** Kiểm tra lại database và user vừa tạo :
     ```
     > show databases
     > show users
@@ -156,30 +160,66 @@
     # systemctl start grafana-server
     # systemctl enable grafana-server
     ```
-- **B4 :** Kiểm tra trạng thái dịch vụ :
+- **B4 :** Cho phép port `3000` đi qua **firewall** :
+    ```
+    # ufw allow 3000/tcp
+    ```
+- **B5 :** Kiểm tra trạng thái dịch vụ :
     ```
     # systemctl status grafana-server
     ```
     <img src=https://i.imgur.com/i8kago2.png>
-- **B5 :** Kiểm tra port đang mở :
+- **B6 :** Kiểm tra port đang mở :
     ```
     # netstat -plntu
     ```
     <img src=https://i.imgur.com/bh47xiX.png>
-- **B6 :** Kiểm tra version hiện tại của **Grafana** :
+- **B7 :** Kiểm tra version hiện tại của **Grafana** :
     ```
     # grafana-servef -v
     ```
     <img src=https://i.imgur.com/JVQcK27.png>
 
-- **B7 :** Setup **Grafana**  - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
+- **B8 :** Setup **Grafana**  - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
     ```
     http://<ip-grafana-server>:3000
     ```
     <img src=https://i.imgur.com/o1xixfN.png>
 
-- **B8 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên :
+- **B9 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên :
 
     <img src=https://i.imgur.com/zsxmH6w.png>
 
-- **B9 :**
+- **B10 :** Chọn ***Create a data source*** :
+
+    <img src=https://i.imgur.com/JyeU7ci.png>
+
+- **B11 :** Chọn ***InfluxDB*** để liên kết với **InfluxDB** vừa cài ở trên :
+
+    <img src=https://i.imgur.com/uck4Cra.png>
+
+- **B12 :** Điền các thông tin cần thiết để giám sát **Telegraf**, sau đó chọn ***Save & Test*** :
+
+    <img src=https://i.imgur.com/zEgu85f.png>
+
+    <img src=https://i.imgur.com/yDIRbfL.png>
+
+- **B13 :** Liên kết thành công :
+
+    <img src=https://i.imgur.com/pemRVbk.png>
+
+- **B14 :** 
+
+    <img src=https://i.imgur.com/nzntCte.png>
+
+- **B15 :** 
+
+    <img src=https://i.imgur.com/uUWoNJo.png>
+
+- **B16 :**
+
+    <img src=https://i.imgur.com/YZl8ysm.png>
+
+- **B17 :**
+
+    <img src=https://i.imgur.com/es1w3Ar.png>
