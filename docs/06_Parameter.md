@@ -1,0 +1,155 @@
+# Các thông số giám sát trong Grafana
+## **1) Các thông số giám sát phần cứng**
+### **1.1) CPU**
+- `usage_guest` : tỉ lệ % CPU sử dụng cho các VMs
+- `usage_guest_nice` : 
+- `usage_idle` : tỉ lệ % CPU trống (không làm gì)
+- `usage_iowait` : tỉ lệ phần trăm CPU làm 
+- `usage_irq` : tỉ lệ % CPU đang phục vụ các yêu cầu ngắt (IRQs) từ kernel
+- `usage_nice` 
+- `usage_softirq` : tỉ lệ % CPU đang phục vụ các yêu cầu ngắt (IRQs) từ kernel
+- `usage_steal` : tỉ lệ % CPU sử dụng bởi các hipervisor
+- `usage_system` : tỉ lệ % sử dụng CPU của kernel
+- `usage_user` : tỉ lệ % sử dụng CPU cho các tác vụ của user
+
+[Tham khảo thêm](https://www.opsdash.com/blog/cpu-usage-linux.html)
+### **1.2) Mem**
+- `active`
+- `available` : dung lượng trống ước tính có thể sử dụng
+- `available_percent` : % dung lượng trống ước tính có thể sử dụng cho các ứng dụng và dịch vụ
+- `buffered` : lượng RAM sử dụng để đệm
+- `cached` : lượng RAM sử dụng cho cache
+- `commit_limit`
+- `committed_as`
+- `dirty`
+- `free` : dung lượng RAM chưa được sử dụng
+- `high_free`
+- `high_total`
+- `huge_page_size`
+- `huge_pages_free`
+- `huge_pages_total`
+- `inactive`
+- `low_free`
+- `low_total`
+- `mapped`
+- `pages_table`
+- `shared` : lượng RAM được sử dụng bởi file system `tmpfs`
+- `slab`
+- `sreclaimable`
+- `sunreclaim`
+- `swap_cached`
+- `swap_free` 
+- `swap_total` : kích cỡ file hoặc phân vùng swap
+- `total` : tổng lượng RAM vật lý
+- `used`
+- `used_percent`
+- `vmalloc_chunk`
+- `vmalloc_used`
+- `vmalloc_total`
+- `wired`
+- `write_back`
+- `write_back_tmp`
+### **1.3) Disk**
+- `free`
+- `inodes_free`
+- `inodes_total`
+- `inodes_used`
+- `total`
+- `used`
+- `used_percent`
+### **1.4) Diskio**
+- `io_time`
+- `iops_in_progress`
+- `merged_reads`
+- `merged_writes`
+- `read_bytes`
+- `read_time`
+- `reads`
+- `weighted_io_time`
+### **1.5) Kernel**
+- `boot_time`
+- `context_switches`
+- `entropy_avail`
+- `interrupts`
+- `processes_forked`
+### **1.6) Net**
+- `bytes_recv`
+- `bytes_sent`
+- `drop_in`
+- `drop_out`
+- `err_in`
+- `err_out`
+- .....
+### **1.7) Processes**
+- `blocked`
+- `dead`
+- `idle`
+- `paging`
+- `running`
+- `sleeping`
+- `stopped`
+- `total`
+- `total_threads`
+- `unknown`
+- `zombies`
+### **1.8) System**
+- `load1` : 
+- `load5`
+- `load15`
+- `n_cpus` : số core CPU tổng thể
+- `n_users` : số user đang login trong phiên terminal ( nếu máy bật thì mặc định sẽ là 1 , sẽ tăng lên qua các phiên SSH )
+- `uptime` : thời gian tính từ khi server start
+- `uptime_format` : 
+### **1.9) Swap**
+- `free`
+- `in`
+- `out`
+- `total`
+- `used`
+- `used_percent`
+## **2) Các thông số giám sát dịch vụ**
+### **2.1) Jitsi**
+- `audiochannels`
+- `bit_rate_download`
+- `bit_rate_upload`
+- `conference_sizes_*`
+- `conferences`
+- `conferences_by_audio_senders` 
+- `conferences_by_video_senders` 
+- `cpu_usage`
+- `endpoints_sending_audio`
+- `endpoints_sending_video`
+- `inactive_conferences`
+- `inactive_endpoints`
+- `jitter_aggregate`
+- `largest_conference`
+- `loss_rate_download`
+- `loss_rate_upload`
+- `muc_clients_configured`
+- `muc_clients_connected`
+- `mucs_configured`
+- `mucs_joined`
+- `num_eps_no_msg_transport_after_delay`
+- `octo_conferences`
+- `octo_endpoints`
+- `octo_receive_bitrate`
+- `octo_receive_packet_rate`
+- `octo_send_bitrate`
+- `octo_send_packet_rate`
+- `p2p_conferences`
+- `packet_rate_download`
+- `packet_rate_upload`
+- `participants`
+- `receive_only_endpoints`
+- `rtp_loss`
+- `rtp_aggregate`
+- `threads`
+- `total_bytes_received`
+- `total_bytes_received_octo`
+- `total_bytes_sent`
+- `total_bytes_sent_octo`
+- `total_channels`
+- `total...`
+- `used_memory`
+- `videochannels`
+- `videostreams`
