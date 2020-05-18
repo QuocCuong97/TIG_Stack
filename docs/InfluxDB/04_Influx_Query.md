@@ -93,3 +93,47 @@
         - [Regular Expression](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#regular-expressions)
 - Sử dụng với **TIMESTAMP** :
 
+## **GROUP BY**
+### **GROUP BY với tags**
+- Truy vấn nhóm **GROUP BY** sử dụng 1 hoặc 1 bộ **tag** để lọc kết quả .
+- Cú pháp :
+    ```
+    SELECT_clause FROM_clause [WHERE_clause] GROUP BY [* | <tag_key>[,<tag_key]]
+    ```
+> Nếu trong truy vấn có **WHERE** thì **GROUP BY** phải đứng sau **WHERE** .
+- **VD1 :** GROUP BY 1 tag :
+    ```
+    select last(usage_system) from cpu group by host
+    ```
+    <img src=https://i.imgur.com/ywZUxad.png>
+
+- **VD2 :** GROUP BY nhiều tag :
+    ```
+    select last(usage_system) from cpu group by host, cpu
+    ```
+    <img src=https://i.imgur.com/nzvgugc.png>
+
+- **VD3 :** GROUP BY tất cả các tag :
+    ```
+    select last(usage_system) from cpu group by *
+    ```
+### **GROUP BY với time()**
+- Cú pháp :
+    ```
+    SELECT <function>(<field_key>) FROM_clause WHERE <time_range> GROUP BY time(<time_interval>),[tag_key] [fill(<fill_option>)]
+    ```
+    - Trong đó :
+        - `time(<time_interval>)` là khoảng thời gian xác định cách các truy vấn nhóm GROUP BY truy vấn kết quả theo thời gian. VD với truy vấn `time interval() = 5m`, kết quả sẽ được nhóm thành các nhóm thời gian `5 phút` trong phạm vi thời gian được chỉ định trong mệnh đề `WHERE` .
+        - `fill(<fill_option>)` là tham số tùy chọn . Nó sẽ thay đổi giá trị báo cáo trong khoảng thời gian không có dữ liệu .
+> Truy vấn **GROUP BY time()** yêu cầu 1 mệnh đề `SELECT` và một mệnh đề `WHERE` :
+- **VD1 :** 
+    ```
+    SELECT cpu,host,usage_system,usage_user FROM cpu WHERE time >= '2020-05-18T00:00:00Z' AND time <= '2020-05-18T08:30:00Z'
+    ```
+    <img src=https://i.imgur.com/qshyvZg.png>
+
+    - Nhóm các kết quả truy vấn theo khoảng thời gian `1 phút` :
+    ```
+    SELECT count("usage_user") FROM "cpu" WHERE time >= '2020-05-18T00:00:00Z' AND time <= '2020-05-18T08:30:00Z' GROUP BY time(1m)
+    ```
+
