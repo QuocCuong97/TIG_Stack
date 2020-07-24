@@ -91,6 +91,10 @@
             - `<>` : không bằng
             - `!=` : không bằng
         - [Regular Expression](https://docs.influxdata.com/influxdb/v1.8/query_language/explore-data/#regular-expressions)
+    - **VD :**
+        ```
+        > select * from "cpu" WHERE "host" = 'centos7-03'
+        ```
 - Sử dụng với **TIMESTAMP** :
 
 ## **GROUP BY**
