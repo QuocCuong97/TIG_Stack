@@ -17,6 +17,7 @@
 - **B3 :** Cài đặt pip và các thư viện cần thiết :
     ```
     # yum install -y python-pip
+    # pip install xml-python libvirt-python
     ```
 - **B4 :** Clone source code :
     ```
@@ -24,12 +25,11 @@
     ```
 - **B5 :** Cài đặt các thư viện cần thiết :
     ```
+    # cd diamond/
     # pip install -r requirements.txt
-    # pip install xml-python libvirt-python
     ```
 - **B5 :** Build file cài đặt :
     ```
-    # cd diamond/
     # make buildrpm
     ```
 - **B6 :** Cài đặt file vừa build :
@@ -44,4 +44,15 @@
     ```
     # systemctl enable diamond
     # systemctl start diamond
+    ```
+> Chú ý :
+- Khi sử dụng **LibvirtKVMCollector**, khi gặp lỗi không đẩy được metric vào handler, thường là do lỗi conflict version `psutil`
+- Để xử lý, thực hiện các bước sau :
+    ```
+    # rpm -qa | grep psutil
+    python2-psutil-5.6.7-1.el7.x86_64
+    # rpm -e python2-psutil-5.6.7-1.el7.x86_64 --nodeps
+    # pip uninstall psutil
+    # pip install psutil==5.0.1
+    # yum install MySQL-python -y
     ```
