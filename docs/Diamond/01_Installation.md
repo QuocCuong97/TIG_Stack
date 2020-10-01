@@ -56,3 +56,37 @@
     # pip install psutil==5.0.1
     # yum install MySQL-python -y
     ```
+### **2.2) Cài đặt trên Ubuntu**
+- **B1 :** Update các package đã có :
+    ```
+    # apt update -y
+    # apt upgrade -y
+    ```
+- **B2 :** Cài đặt các packet cần thiết :
+    ```
+    # apt install python-dev libvirt-dev make pbuilder python-mock python-configobj cdbs devscripts build-essential -y
+    # wget http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb
+    # sudo dpkg -i python-support_1.0.15_all.deb
+    ```
+- **B3 :** Cài đặt pip và các thư viện cần thiết :
+    ```
+    # apt install -y python3-pip
+    # pip3 install xml-python libvirt-python
+    ```
+- **B5 :** Build file cài đặt :
+    ```
+    # make builddeb
+    ```
+- **B6 :** Cài đặt file vừa build :
+    ```
+    # dpkg -i build/diamond_4.0.411_all.deb
+    ```
+- **B7 :** Copy file cấu hình diamond từ file mẫu :
+    ```
+    # cp /etc/diamond/diamond.conf.example /etc/diamond/diamond.conf
+    ```
+- **B8 :** Khởi động dịch vụ `diamond` :
+    ```
+    # systemctl enable diamond
+    # systemctl start diamond
+    ```
