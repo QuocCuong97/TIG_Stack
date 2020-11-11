@@ -161,6 +161,12 @@
     docker-compose up -d cloud-backup-check_activate_machine
     docker-compose up -d cloud-backup-update_state_action
     ```
+- Trong thư mục `endeavour`, migrate database :
+    ```
+    flask db stamp head
+    flask db migrate
+    flask db upgrade
+    ```
 ### Cài đặt HAProxy
 - Cài đặt NGINX
 - Chỉnh sửa file config, thêm block sau vào block `http` :
