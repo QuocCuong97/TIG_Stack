@@ -1,4 +1,8 @@
-### Cài đặt chuẩn bị môi trường (cài đặt trên cả 5 node)
+# Hướng dẫn deploy Backup Service môi trường Staging
+### **Mô hình**
+<img src=https://i.imgur.com/p7zZwK6.png>
+
+### **Cài đặt chuẩn bị môi trường (cài đặt trên cả 5 node)**
 - Bước 1: Update các package:
     ```
     yum update -y && yum upgrade -y
@@ -7,7 +11,7 @@
     ```
     yum install python3 wget git byobu -y
     ```
-### Cài đặt PostgreSQL (theo docs riêng)
+### **Cài đặt PostgreSQL (theo docs riêng)**
 - Truy cập postgre shell:
     ```
     sudo -u postgres psql
@@ -34,7 +38,7 @@
         ```
         systemctl restart postgresql-12
         ```
-### Cài đặt VerneMQ
+### **Cài đặt VerneMQ**
 - Download package rpm :
     ```
     wget https://github.com/vernemq/vernemq/releases/download/1.11.0/vernemq-1.11.0.centos7.x86_64.rpm
@@ -78,13 +82,14 @@
     ```
     vmq-admin api-key create
     ```
-### Cài đặt Redis
+### **Cài đặt Redis**
 - Cài đặt Docker
 - Chạy docker image :
     ```
     docker run -d -p 6379:6379 redis
     ```
-### Cài đặt Endeavour
+### **Cài đặt Endeavour**
+- Cài đặt Docker
 - Clone Repo :
     ```
     git clone git@git.paas.vn:backup-service/endeavour.git
@@ -101,7 +106,7 @@
     ```
     pip install -r requirements.txt
     ```
-- Chỉnh sửa các thông tin trong file `config.py`
+- Chỉnh sửa các thông tin trong file `config.py` :
     ```py
     SQLALCHEMY_DATABASE_URI = _get_env_or_default('DATABASE_URL',
                                                   'postgresql+psycopg2://postgres:vccloud123@10.5.69.113:5432/postgres')
@@ -127,8 +132,8 @@
     VMQ_HTTP_API_KEY = 'HI9LAYzuWRSkxxIY2wFyMHuRMDHyRwDy'
     VMQ_HOST = _get_env_or_default('VMQ_HOST', '10.5.69.114')
     ...
-    BROKER_URL = _get_env_or_default('BROKER_URL', 'mqtt://123.31.11.223:1883')
-    API_URL = _get_env_or_default('API_URL', 'https://dev.bizflycloud.vn/api/cloud-backup')
+    BROKER_URL = _get_env_or_default('BROKER_URL', 'mqtt://123.31.11.223:1883')    # IP Pub VMQ
+    API_URL = _get_env_or_default('API_URL', 'https://backup-api.dev.bizflycloud.vn')
     ...
     RGW_ACCESS_KEY = _get_env_or_default(
         "RGW_ACCESS_KEY", '7M1HCLRCTKV46IPLA3U7')
@@ -167,13 +172,13 @@
     flask db migrate
     flask db upgrade
     ```
-### Cài đặt HAProxy
+### **Cài đặt HAProxy**
 - Cài đặt NGINX
 - Chỉnh sửa file config, thêm block sau vào block `http` :
     ```sh
     server {
         listen       80;
-        server_name  123.31.11.49;                           # IP Pub
+        server_name  backup-api.dev.bizflycloud.vn;                           # IP Pub
         #root         /usr/share/nginx/html;
         client_max_body_size 0;
         # Load configuration files for the default server block.
