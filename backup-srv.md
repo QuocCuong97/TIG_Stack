@@ -127,7 +127,7 @@
     VMQ_HTTP_API_KEY = 'HI9LAYzuWRSkxxIY2wFyMHuRMDHyRwDy'
     VMQ_HOST = _get_env_or_default('VMQ_HOST', '10.5.69.114')
     ...
-    BROKER_URL = _get_env_or_default('BROKER_URL', 'mqtt://10.5.69.114:1883')
+    BROKER_URL = _get_env_or_default('BROKER_URL', 'mqtt://123.31.11.223:1883')
     API_URL = _get_env_or_default('API_URL', 'https://dev.bizflycloud.vn/api/cloud-backup')
     ...
     RGW_ACCESS_KEY = _get_env_or_default(
