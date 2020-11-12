@@ -12,6 +12,7 @@
     yum install python3 wget git byobu -y
     ```
 ### **Cài đặt PostgreSQL (theo docs riêng)**
+- Cài đặt PosgreSQL và các extension cần thiết. Tham khảo tại đây()
 - Truy cập postgre shell:
     ```
     sudo -u postgres psql
