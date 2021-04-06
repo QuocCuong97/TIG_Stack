@@ -1,5 +1,210 @@
 # Cài đặt TIG Stack
 ## **1) Cài đặt trên CentOS 7**
+### **1.1) Cài đặt InfluxDB**
+- **B1 :** Tạo repo cho **InfluxDB** :
+    ```
+    # vi /etc/yum.repos.d/influxdb.repo
+    ```
+    - Thêm vào nội dung sau :
+        ```
+        [influxdb]
+        name = InfluxDB Repository - RHEL $releasever
+        baseurl = https://repos.influxdata.com/rhel/$releasever/$basearch/stable
+        enabled = 1
+        gpgcheck = 1
+        gpgkey = https://repos.influxdata.com/influxdb.key
+        ```
+    - Cập nhật lại các repo :
+        ```
+        # yum repolist
+        ```
+- **B2 :** Cài đặt **InfluxDB** :
+    ```
+    # yum install influxdb -y
+    ```
+- **B3 :** Khởi động dịch vụ và cấu hình khởi động cùng hệ thống :
+    ```
+    # systemctl start influxdb
+    # systemctl enable influxdb
+    ```
+- **B4 :** Cho phép các port `8066` và `8088` đi qua **FirewallD** :
+    ```
+    # firewall-cmd --permanent --add-port=8086/tcp
+    # firewall-cmd --permanent --add-port=8088/tcp
+    # firewall-cmd --reload
+    ```
+- **B5 :** Kiểm tra trạng thái dịch vụ :
+    ```
+    # systemctl status influxdb
+    ```
+    <img src=https://i.imgur.com/XwawmXW.png>
+
+- **B8 :** Kiểm tra version hiện tại của **Influx** :
+    ```
+    # influx -version
+    ```
+    <img src=https://i.imgur.com/EQw4Zl7.png>
+
+- **B9 :** Để lưu trữ dữ liệu cho **Telegraf agents**, ta sẽ setup trước database và user trên **Influxdb** :
+    ```
+    # influx
+    ```
+    <img src=https://i.imgur.com/LSIrjqQ.png>
+
+    > Lúc này ta đang kết nối đến **Influx server** mặc định trên port `8086`.
+- **B10 :** Tạo database và user cho **Telegraf** :
+    ```
+    > create database telegraf
+    > create user telegraf with password 'P@ssw0rd'
+    ```
+- **B11 :** Kiểm tra lại database và user vừa tạo :
+    ```
+    > show databases
+    > show users
+    ```
+    <img src=https://i.imgur.com/KMIhI73.png>
+
+    > Gõ `exit` để thoát .
+### **1.2) Cài đặt Telegraf Agent**
+- **B1 :** Cài đặt **Telegraf** :
+    ```
+    # yum install -y telegraf
+    ```
+- **B2 :** Khởi động dịch vụ và cấu hình khởi động cùng hệ thống :
+    ```
+    # systemctl start telegraf
+    # systemctl enable telegraf
+    ```
+- **B3 :** Kiểm tra version hiện tại của **Telegraf** :
+    ```
+    # telegraf --version
+    ```
+    <img src=https://i.imgur.com/bGGoiCJ.png>
+
+- **B4 :** Backup file cấu hình mặc định của **Telegraf** :
+    ```
+    # cd /etc/telegraf/
+    # cp telegraf.conf telegraf.conf.bak
+    ```
+- **B5 :** Chỉnh sửa file cấu hình `telegraf.conf` :
+    ```
+    # vi telegraf.conf
+    ```
+    - Chỉnh sửa các dòng sau :
+        ```
+        ...
+        hostname = "tig_server" (dòng 94)
+        ...
+        [[outputs.influxdb]]
+        ...
+        urls = ["http://127.0.0.1:8086"]    (dòng 112)
+        ...
+        database = "telegraf"               (dòng 116)
+        ...
+        username = "telegraf"               (dòng 149)
+        password = "P@ssw0rd"               (dòng 150)
+        ...
+        [[inputs.cpu]]                      (dòng 2614)
+        ## Whether to report per-cpu stats or not
+        percpu = true
+        ## Whether to report total system cpu stats or not
+        totalcpu = true
+        ## If true, collect raw CPU time metrics
+        collect_cpu_time = false
+        ## If true, compute and report the sum of all non-idle CPU states
+        report_active = false               (dòng 2622)
+        ...
+        [[inputs.disk]]                     (dòng 2626)
+        ## By default stats will be gathered for all mount points.
+        ## Set mount_points will restrict the stats to only the specified mount points.
+        # mount_points = ["/"]
+   
+        ## Ignore mount points by filesystem type.
+        ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]                 (dòng 2639)
+        ...
+        [[inputs.diskio]]
+        ...
+        [[inputs.kernel]]
+        ...
+        [[inputs.mem]]
+        ...
+        [[inputs.processes]]
+        ...
+        [[inputs.system]]
+        ...
+        [[inputs.net]]                      (dòng 4793)
+        ...
+        [[inputs.netstat]]                  (dòng 4835)
+        ...
+        ```
+- **B6 :** Khởi động lại dịch vụ :
+    ```
+    # systemctl restart telegraf
+    ```
+### **1.3) Cài đặt Grafana**
+- **B1 :** Tạo repo cho **Grafana** :
+    ```
+    # vim /etc/yum.repos.d/grafana.repo
+    ```
+    - Thêm vào nội dung sau :
+        ```
+        [grafana]
+        name=grafana
+        baseurl=https://packages.grafana.com/oss/rpm
+        repo_gpgcheck=1
+        enabled=1
+        gpgcheck=1
+        gpgkey=https://packages.grafana.com/gpg.key
+        sslverify=1
+        sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+        ```
+    - Cập nhật lại các repo :
+        ```
+        # yum repolist
+        ```
+- **B2 :** Cài đặt `grafana` :
+    ```
+    # yum install grafana -y
+    ```
+- **B3 :** Khởi động dịch vụ và cấu hình khởi động cùng hệ thống :
+    ```
+    # systemctl start grafana-server
+    # systemctl enable grafana-server
+    ```
+- **B4 :** Cho phép các port `3000` đi qua **FirewallD** :
+    ```
+    # firewall-cmd --zone=public --add-port=3000/tcp --permanent
+    # firewall-cmd --reload
+    ```
+- **B5 :** Kiểm tra version hiện tại của **Grafana** :
+    ```
+    # grafana-server -v
+    ```
+    <img src=https://i.imgur.com/F12VhGz.png>
+
+- **B8 :** Setup **Grafana** - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
+    ```
+    http://<ip-grafana-server>:3000
+    ```
+    <img src=https://i.imgur.com/mHkFKpz.png>
+
+- **B9 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên :
+
+    <img src=https://i.imgur.com/1MY4KAd.png>
+
+- **B10 :** Trong tab **Configuration**, chọn **Data Sources** :
+
+    <img src=https://i.imgur.com/2xEzSyO.png>
+
+- **B11 :** Chọn ***Add data source*** :
+
+    <img src=https://i.imgur.com/oMli4Sf.png>
+
+- **B12 :** Chọn ***InfluxDB*** để liên kết với **InfluxDB** vừa cài ở trên :
+
+    <img src=https://i.imgur.com/PVjYWsr.png>
+
+- **B13 :** Điền các thông tin cần thiết để giám sát **Telegraf**, sau đó chọn ***Save & Test*** :
 ## **2) Cài đặt trên Ubuntu Server 18.04**
 ### **2.1) Cài đặt InfluxDB**
 - **B1 :** Thêm Influxdata key :
