@@ -39,25 +39,25 @@
     ```
     <img src=https://i.imgur.com/XwawmXW.png>
 
-- **B8 :** Kiểm tra version hiện tại của **Influx** :
+- **B6 :** Kiểm tra version hiện tại của **Influx** :
     ```
     # influx -version
     ```
     <img src=https://i.imgur.com/EQw4Zl7.png>
 
-- **B9 :** Để lưu trữ dữ liệu cho **Telegraf agents**, ta sẽ setup trước database và user trên **Influxdb** :
+- **B7 :** Để lưu trữ dữ liệu cho **Telegraf agents**, ta sẽ setup trước database và user trên **Influxdb** :
     ```
     # influx
     ```
     <img src=https://i.imgur.com/LSIrjqQ.png>
 
     > Lúc này ta đang kết nối đến **Influx server** local mặc định trên port `8086`.
-- **B10 :** Tạo database và user cho **Telegraf** :
+- **B8 :** Tạo database và user cho **Telegraf** :
     ```
     > create database telegraf
     > create user telegraf with password 'P@ssw0rd'
     ```
-- **B11 :** Kiểm tra lại database và user vừa tạo :
+- **B9 :** Kiểm tra lại database và user vừa tạo :
     ```
     > show databases
     > show users
@@ -182,29 +182,29 @@
     ```
     <img src=https://i.imgur.com/F12VhGz.png>
 
-- **B8 :** Setup **Grafana** - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
+- **B6 :** Setup **Grafana** - truy cập URL sau trên trình duyệt của client , đăng nhập với user mặc định `admin/admin` -> ***Login*** :
     ```
     http://<ip-grafana-server>:3000
     ```
     <img src=https://i.imgur.com/mHkFKpz.png>
 
-- **B9 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên (hoặc có thể ***Skip*** để bỏ qua) :
+- **B7 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên (hoặc có thể ***Skip*** để bỏ qua) :
 
     <img src=https://i.imgur.com/1MY4KAd.png>
 
-- **B10 :** Trong tab **Configuration**, chọn **Data Sources** :
+- **B8 :** Trong tab **Configuration**, chọn **Data Sources** :
 
     <img src=https://i.imgur.com/2xEzSyO.png>
 
-- **B11 :** Chọn ***Add data source*** :
+- **B9 :** Chọn ***Add data source*** :
 
     <img src=https://i.imgur.com/oMli4Sf.png>
 
-- **B12 :** Chọn ***InfluxDB*** để liên kết với **InfluxDB** vừa cài ở trên :
+- **B10 :** Chọn ***InfluxDB*** để liên kết với **InfluxDB** vừa cài ở trên :
 
     <img src=https://i.imgur.com/PVjYWsr.png>
 
-- **B13 :** Điền các thông tin cần thiết để giám sát **Telegraf**, sau đó chọn ***Save & Test*** :
+- **B11 :** Điền các thông tin cần thiết để giám sát **Telegraf**, sau đó chọn ***Save & Test*** :
 
     <img src=https://i.imgur.com/gSRmhHu.png>
 
@@ -214,17 +214,17 @@
 
         <img src=https://i.imgur.com/n14ZZmS.png>
 
-- **B14 :** Tại tab **Create**, chọn **Import** để thêm template dashboard đã có sẵn (được public) hoặc có thể tự vẽ dashboard :
+- **B12 :** Tại tab **Create**, chọn **Import** để thêm template dashboard đã có sẵn (được public) hoặc có thể tự vẽ dashboard :
     
     <img src=https://i.imgur.com/319HGGF.png>
 
     > Các template dashboard có thể xem thêm tại https://grafana.com/grafana/dashboards
 
-- **B15 :** Thêm ID của dashboard template, chọn ***Load*** :
+- **B13 :** Thêm ID của dashboard template, chọn ***Load*** :
 
     <img src=https://i.imgur.com/YcbHrxS.png>
 
-- **B16 :** Chọn data source, sau đó chọn ***Import*** :
+- **B14 :** Chọn data source, sau đó chọn ***Import*** :
 
     <img src=https://i.imgur.com/aKhT0Mj.png>
 
