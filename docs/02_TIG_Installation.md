@@ -51,7 +51,7 @@
     ```
     <img src=https://i.imgur.com/LSIrjqQ.png>
 
-    > Lúc này ta đang kết nối đến **Influx server** mặc định trên port `8086`.
+    > Lúc này ta đang kết nối đến **Influx server** local mặc định trên port `8086`.
 - **B10 :** Tạo database và user cho **Telegraf** :
     ```
     > create database telegraf
@@ -188,7 +188,7 @@
     ```
     <img src=https://i.imgur.com/mHkFKpz.png>
 
-- **B9 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên :
+- **B9 :** **Grafana** sẽ yêu cầu đổi password mặc định ngay lần đăng nhập đầu tiên (hoặc có thể ***Skip*** để bỏ qua) :
 
     <img src=https://i.imgur.com/1MY4KAd.png>
 
