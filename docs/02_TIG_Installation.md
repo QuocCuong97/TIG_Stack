@@ -93,7 +93,7 @@
     - Chỉnh sửa các dòng sau :
         ```
         ...
-        hostname = "tig_server" (dòng 94)
+        hostname = "tig_server"             (dòng 94)
         ...
         [[outputs.influxdb]]
         ...
@@ -205,6 +205,32 @@
     <img src=https://i.imgur.com/PVjYWsr.png>
 
 - **B13 :** Điền các thông tin cần thiết để giám sát **Telegraf**, sau đó chọn ***Save & Test*** :
+
+    <img src=https://i.imgur.com/gSRmhHu.png>
+
+    <img src=https://i.imgur.com/KKfIX3J.png>
+
+    - Liên kết database thành công sẽ có kết quả sau :
+
+        <img src=https://i.imgur.com/n14ZZmS.png>
+
+- **B14 :** Tại tab **Create**, chọn **Import** để thêm template dashboard đã có sẵn (được public) hoặc có thể tự vẽ dashboard :
+    
+    <img src=https://i.imgur.com/319HGGF.png>
+
+    > Các template dashboard có thể xem thêm tại https://grafana.com/grafana/dashboards
+
+- **B15 :** Thêm ID của dashboard template, chọn ***Load*** :
+
+    <img src=https://i.imgur.com/YcbHrxS.png>
+
+- **B16 :** Chọn data source, sau đó chọn ***Import*** :
+
+    <img src=https://i.imgur.com/aKhT0Mj.png>
+
+- Dashboard Grafana sau khi thêm thành công :
+
+    <img src=https://i.imgur.com/Zx6CnQd.png>
 ## **2) Cài đặt trên Ubuntu Server 18.04**
 ### **2.1) Cài đặt InfluxDB**
 - **B1 :** Thêm Influxdata key :
